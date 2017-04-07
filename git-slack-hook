@@ -83,6 +83,8 @@ function notify() {
       # un-annotated tag
       refname_type="tag"
       short_refname=${refname##refs/tags/}
+      # Not notifying tags
+      return 0
       ;;
     refs/tags/*,tag)
       # annotated tag
