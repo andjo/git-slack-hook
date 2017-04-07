@@ -1,4 +1,4 @@
-# Git post-receive hook for Slack
+# Git post-receive hook for Slack at Roxen AB
 
 This is a bash script that posts a message into your [Slack](https://slack.com) channel when changes are pushed.
 

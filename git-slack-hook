@@ -2,6 +2,9 @@
 #
 # Slack (slack.com) notification post-receive hook.
 #
+# Fork of https://github.com/chriseldredge/git-slack-hook by anders@roxen.com at
+# https://github.com/andjo/git-slack-hook
+#
 # Based on: https://github.com/joemiller/git-hooks Campfire notification post-receive hook. Author: Joe Miller
 # (http://joemiller.me)
 #
