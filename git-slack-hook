@@ -31,6 +31,7 @@ function help() {
   echo " git config hooks.slack.changeset-url-pattern 'http://yourserver/%repo_path%/changeset/%rev_hash%' #optional"
   echo " git config hooks.slack.compare-url-pattern 'http://yourserver/%repo_path%/changeset/%old_rev_hash%..%new_rev_hash%' #optional"
   echo " git config hooks.slack.branch-regexp 'regexp'  #optional"
+  echo " git config hooks.slack.not-branch-regexp 'regexp'  #optional"
 }
 
 function replace_variables() {
@@ -119,7 +120,14 @@ function notify() {
   branchregexp=$(git config --get hooks.slack.branch-regexp)
   if [ -n "$branchregexp" ]; then
     if [[ ! $short_refname =~ $branchregexp ]]; then
-      exit 0;
+      return 0;
+    fi
+  fi
+
+  notbranchregexp=$(git config --get hooks.slack.not-branch-regexp)
+  if [ -n "$notbranchregexp" ]; then
+    if [[ $short_refname =~ $notbranchregexp ]]; then
+      return 0;
     fi
   fi
 
