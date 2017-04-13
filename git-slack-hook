@@ -313,7 +313,7 @@ function notify() {
     return
   fi
 
-  curl -s \
+  /usr/bin/curl -s -k \
       -d "payload=$payload" \
       "$webhook_url" \
       >/dev/null
