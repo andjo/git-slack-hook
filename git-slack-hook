@@ -17,6 +17,21 @@
 # - The Slack webhook URL can be found in:
 #   https://my.slack.com/services/new/incoming-webhook
 #
+
+# Queue the notification for git-slackd on quake.
+# This is needed due to ancient versions of curl on several platforms.
+# /grubba 2020-04-03
+if [ "`hostname`" = "quake.roxen.com" ]; then :; else
+  repo=`basename "$GIT_DIR"`
+  cat >"/i/git/slack-notifications/${repo}.`date -Iseconds`.$$"
+  exit 0
+fi
+
+# Some users (eg jonasw) have names encoded with ISO-8859-1. Use
+# the C-locale to make sed happy.
+LC_CTYPE=C
+export LC_CTYPE
+
 function help() {
   echo "Required config settings:"
   echo " git config hooks.slack.webhook-url 'https://hooks.slack.com/services/...'"
@@ -35,7 +50,7 @@ function help() {
 }
 
 function replace_variables() {
-	sed "s|%repo_path%|$repopath|g;s|%old_rev_hash%|$oldrev|g;s|%new_rev_hash%|$newrev|g;s|%rev_hash%|$newrev|g;s|%repo_prefix%|$repoprefix|g"
+  sed "s|%repo_path%|$repopath|g;s|%old_rev_hash%|$oldrev|g;s|%new_rev_hash%|$newrev|g;s|%rev_hash%|$newrev|g;s|%repo_prefix%|$repoprefix|g"
 }
 
 function notify() {
